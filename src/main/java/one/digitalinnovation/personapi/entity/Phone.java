@@ -1,6 +1,7 @@
 package one.digitalinnovation.personapi.entity;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
@@ -13,6 +14,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import one.digitalinnovation.personapi.enuns.PhoneType;
 
+@Entity
 @Data
 @Builder
 @AllArgsConstructor
