@@ -1,32 +1,42 @@
 package one.digitalinnovation.personapi.controller;
 
+import java.util.List;
+
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import one.digitalinnovation.personapi.dto.MessageResponseDTO;
+import one.digitalinnovation.personapi.dto.request.PersonDTO;
+import one.digitalinnovation.personapi.dto.response.MessageResponseDTO;
 import one.digitalinnovation.personapi.entity.Person;
-import one.digitalinnovation.personapi.repositories.PersonRepository;
+import one.digitalinnovation.personapi.services.PersonService;
 
 @RestController
 @RequestMapping("/api/v1/people")
 public class PersonController {
 
+	
 	@Autowired
-	private PersonRepository personRepository;
+	private PersonService personService;
+	
+	@GetMapping
+	public List<Person> findAll() {
+		return personService.findAll();
+	}
 	
 	
+	@ResponseStatus(HttpStatus.CREATED)
 	@PostMapping
-	public MessageResponseDTO createPerson(@RequestBody Person person) {
+	public MessageResponseDTO createPerson(@Valid @RequestBody PersonDTO personDTO) {
 		
-		Person savePerson = personRepository.save(person);
-		return MessageResponseDTO
-				.builder()
-				.message("Created person with ID " + savePerson.getId())
-				.build();
-				
+		return 	personService.createPerson(personDTO);
 	}
 
 	
